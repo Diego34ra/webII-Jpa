@@ -23,14 +23,26 @@ public class Livro {
 
     private String isbn;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_livro_autor",
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id"))
     private List<Autor> autores;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "editora_id")
     private Editora editora;
+
+    @Override
+    public String toString() {
+        return "Livro{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", anoPub=" + anoPub +
+                ", isbn='" + isbn + '\'' +
+                ", autores=" + autores +
+                ", editora=" + editora +
+                '}';
+    }
 }

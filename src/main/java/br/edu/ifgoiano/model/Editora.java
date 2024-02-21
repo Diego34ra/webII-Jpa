@@ -19,6 +19,14 @@ public class Editora {
 
     private String nome;
 
-    @OneToMany(mappedBy = "editora")
+    @OneToMany(mappedBy = "editora", fetch = FetchType.EAGER)
     private List<Livro> livros;
+
+    @Override
+    public String toString() {
+        return "Editora{" +
+                "id=" + id +
+                ", nome='" + nome +
+                '}';
+    }
 }

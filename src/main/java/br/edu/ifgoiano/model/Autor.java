@@ -19,6 +19,14 @@ public class Autor {
 
     private String nome;
 
-    @ManyToMany(mappedBy = "autores",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "autores",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Livro> livros;
+
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "id=" + id +
+                ", nome='" + nome +
+                '}';
+    }
 }

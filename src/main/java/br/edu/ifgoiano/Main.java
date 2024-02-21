@@ -5,15 +5,22 @@ import br.edu.ifgoiano.model.Editora;
 import br.edu.ifgoiano.model.Livro;
 import br.edu.ifgoiano.repository.AutorRepository;
 import br.edu.ifgoiano.repository.EditoraRespository;
+import br.edu.ifgoiano.repository.LivroRepository;
+import com.google.gson.Gson;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static AutorRepository autorRepository = new AutorRepository();
     public static EditoraRespository editoraRespository = new EditoraRespository();
+
+    public static LivroRepository livroRepository = new LivroRepository();
 
     public static void main(String[] args) {
         Configuration configuration = new Configuration().configure();
@@ -48,6 +55,44 @@ public class Main {
         editoraRespository.update(1L,editoraGet);
 
         editoraRespository.delete(1L);
+
+        // Teste CRUD Livro
+
+        List<Autor> autorList = new ArrayList<>();
+
+        Editora editoraLivro = new Editora();
+        editoraLivro.setId(2L);
+        editoraLivro.setNome("Teste Editora Livro");
+
+        editoraRespository.save(editoraLivro);
+
+        Autor autorLivro1 = new Autor();
+        autorLivro1.setId(2L);
+        autorLivro1.setNome("Teste Autor Livro 1");
+
+        autorRepository.save(autorLivro1);
+        autorList.add(autorLivro1);
+
+        Autor autorLivro2 = new Autor();
+        autorLivro2.setId(3L);
+        autorLivro2.setNome("Teste Autor Livro 2");
+
+        autorRepository.save(autorLivro2);
+        autorList.add(autorLivro2);
+
+        Livro livro = new Livro();
+        livro.setNome("Teste Livro");
+        livro.setIsbn("123123123");
+        livro.setAnoPub(2024);
+        livro.setEditora(editoraLivro);
+        livro.setAutores(autorList);
+
+        livroRepository.save(livro);
+
+        Livro livroGet = livroRepository.getById(1L);
+        System.out.println(livroGet);
+//        System.out.println(gson.toJson(livroGet));
+
 
 //        // Salva o livro no banco de dados
 //        try (Session session = sessionFactory.openSession()) {
