@@ -2,10 +2,15 @@ package br.edu.ifgoiano.repository;
 
 import br.edu.ifgoiano.model.Autor;
 import br.edu.ifgoiano.model.Editora;
+import br.edu.ifgoiano.model.Livro;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditoraRespository {
 
@@ -45,5 +50,27 @@ public class EditoraRespository {
             session.delete(editoraDelte);
             transaction.commit();
         }
+    }
+
+    public List<Livro> getLivrosByIdEditora(Long id){
+        List<Livro> livroList;
+        try (Session session = sessionFactory.openSession()) {
+            Editora editora = session.get(Editora.class, id);
+            livroList = editora.getLivros();
+            System.out.println("tamanho = "+livroList.size());
+        }
+        return livroList;
+    }
+
+    public List<Autor> getAutoresByIdEditora(Long id){
+        List<Autor> autorList = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Editora editora = session.get(Editora.class, id);
+            List<Livro> livroList = editora.getLivros();
+            for(Livro livro : livroList){
+                autorList.addAll(livro.getAutores());
+            }
+        }
+        return autorList;
     }
 }

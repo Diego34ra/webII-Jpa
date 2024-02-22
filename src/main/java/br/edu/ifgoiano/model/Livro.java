@@ -2,6 +2,8 @@ package br.edu.ifgoiano.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Livro {
 
     private String isbn;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "tb_livro_autor",
             joinColumns = @JoinColumn(name = "livro_id"),

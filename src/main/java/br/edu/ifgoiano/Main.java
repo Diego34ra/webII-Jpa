@@ -23,9 +23,65 @@ public class Main {
     public static LivroRepository livroRepository = new LivroRepository();
 
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().configure();
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        testeCrudAutor();
 
+        testeCrudEditora();
+
+        testeCrudLivro();
+
+        List<Autor> autorList = new ArrayList<>();
+
+        Editora editoraLivro = new Editora();
+        editoraLivro.setId(3L);
+        editoraLivro.setNome("Teste Editora Livro");
+
+        editoraRespository.save(editoraLivro);
+
+        Autor autorLivro1 = new Autor();
+        autorLivro1.setId(3L);
+        autorLivro1.setNome("Teste Autor Livro 1");
+
+        autorRepository.save(autorLivro1);
+        autorList.add(autorLivro1);
+
+        Autor autorLivro2 = new Autor();
+        autorLivro2.setId(4L);
+        autorLivro2.setNome("Teste Autor Livro 2");
+
+        autorRepository.save(autorLivro2);
+        autorList.add(autorLivro2);
+
+        Livro livro = new Livro();
+        livro.setNome("Teste Livro");
+        livro.setIsbn("123123123");
+        livro.setAnoPub(2024);
+        livro.setEditora(editoraLivro);
+        livro.setAutores(autorList);
+
+        livroRepository.save(livro);
+        // quais autores por livro
+        List<Autor> autors = livroRepository.getAutorByIdLivro(2L);
+        autors.stream().map(autor -> autors).forEach(System.out::println);
+
+        // quais livros por autor;
+        List<Livro> livros = autorRepository.getbyLivrosByIdAutor(4L);
+        livros.stream().map(livroGet -> livros).forEach(System.out::println);
+
+        //quais editoras por livro;
+        Editora editora = livroRepository.getEditoraByIdLivro(2L);
+        System.out.println(editora);
+
+        //quais livros por editora;
+        List<Livro> livroList = editoraRespository.getLivrosByIdEditora(3L);
+        livroList.stream().map(liv -> livroList).forEach(System.out::println);
+
+        //quais autores por editora;
+        List<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
+        autorListEditora.stream().map(aut -> autorListEditora).forEach(System.out::println);
+        //quais editoras por autor;
+    }
+
+    public static void testeCrudAutor(){
         //Teste CRUD Autor
 
         Autor autor = new Autor();
@@ -40,7 +96,9 @@ public class Main {
         autorRepository.update(1L,autorGet);
 
         autorRepository.delete(1L);
+    }
 
+    public static void testeCrudEditora(){
         // Teste CRUD Editora
 
         Editora editora = new Editora();
@@ -55,7 +113,9 @@ public class Main {
         editoraRespository.update(1L,editoraGet);
 
         editoraRespository.delete(1L);
+    }
 
+    public static void testeCrudLivro(){
         // Teste CRUD Livro
 
         List<Autor> autorList = new ArrayList<>();
@@ -90,40 +150,12 @@ public class Main {
         livroRepository.save(livro);
 
         Livro livroGet = livroRepository.getById(1L);
-        System.out.println(livroGet);
-//        System.out.println(gson.toJson(livroGet));
 
+        livroGet.setNome("Testando Livro");
+        livroGet.setIsbn("321321321");
+        livroGet.setAnoPub(2023);
+        livroRepository.update(1L,livroGet);
 
-//        // Salva o livro no banco de dados
-//        try (Session session = sessionFactory.openSession()) {
-//            Transaction transaction = session.beginTransaction();
-//            session.save(book);
-//            transaction.commit();
-//        }
-//
-//        // Recupera um livro pelo ID
-//        try (Session session = sessionFactory.openSession()) {
-//            Livro retrievedBook = session.get(Livro.class, 1L);
-//            System.out.println("Retrieved Book: " + retrievedBook.getNome());
-//        }
-
-//        // Atualiza um livro
-//        try (Session session = sessionFactory.openSession()) {
-//            Transaction transaction = session.beginTransaction();
-//            Book bookToUpdate = session.get(Book.class, 1L);
-//            bookToUpdate.setTitle("Updated Title");
-//            session.update(bookToUpdate);
-//            transaction.commit();
-//        }
-//
-//        // Deleta um livro
-//        try (Session session = sessionFactory.openSession()) {
-//            Transaction transaction = session.beginTransaction();
-//            Book bookToDelete = session.get(Book.class, 1L);
-//            session.delete(bookToDelete);
-//            transaction.commit();
-//        }
-
-        sessionFactory.close();
+        livroRepository.delete(1L);
     }
 }
