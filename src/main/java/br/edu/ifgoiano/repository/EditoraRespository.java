@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,21 +56,19 @@ public class EditoraRespository {
     public List<Livro> getLivrosByIdEditora(Long id){
         List<Livro> livroList;
         try (Session session = sessionFactory.openSession()) {
-            Editora editora = session.get(Editora.class, id);
-            livroList = editora.getLivros();
-            System.out.println("tamanho = "+livroList.size());
+            Query<Livro> query = session.createQuery(
+                    "SELECT l FROM Livro l JOIN FETCH l.editora e WHERE e.id = :id", Livro.class);
+            query.setParameter("id", id);
+            livroList = query.getResultList();
         }
         return livroList;
     }
 
     public List<Autor> getAutoresByIdEditora(Long id){
         List<Autor> autorList = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
-            Editora editora = session.get(Editora.class, id);
-            List<Livro> livroList = editora.getLivros();
-            for(Livro livro : livroList){
-                autorList.addAll(livro.getAutores());
-            }
+        List<Livro> livroList = getLivrosByIdEditora(id);
+        for(Livro livro : livroList){
+            autorList.addAll(livro.getAutores());
         }
         return autorList;
     }

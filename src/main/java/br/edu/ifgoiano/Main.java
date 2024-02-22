@@ -6,11 +6,6 @@ import br.edu.ifgoiano.model.Livro;
 import br.edu.ifgoiano.repository.AutorRepository;
 import br.edu.ifgoiano.repository.EditoraRespository;
 import br.edu.ifgoiano.repository.LivroRepository;
-import com.google.gson.Gson;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +56,11 @@ public class Main {
         livroRepository.save(livro);
         // quais autores por livro
         List<Autor> autors = livroRepository.getAutorByIdLivro(2L);
-        autors.stream().map(autor -> autors).forEach(System.out::println);
+        autors.forEach(System.out::println);
 
         // quais livros por autor;
-        List<Livro> livros = autorRepository.getbyLivrosByIdAutor(4L);
-        livros.stream().map(livroGet -> livros).forEach(System.out::println);
+        List<Livro> livros = autorRepository.getLivrosByIdAutor(4L);
+        livros.forEach(System.out::println);
 
         //quais editoras por livro;
         Editora editora = livroRepository.getEditoraByIdLivro(2L);
@@ -73,12 +68,15 @@ public class Main {
 
         //quais livros por editora;
         List<Livro> livroList = editoraRespository.getLivrosByIdEditora(3L);
-        livroList.stream().map(liv -> livroList).forEach(System.out::println);
+        livroList.forEach(System.out::println);
 
         //quais autores por editora;
         List<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
-        autorListEditora.stream().map(aut -> autorListEditora).forEach(System.out::println);
+        autorListEditora.forEach(System.out::println);
+
         //quais editoras por autor;
+        List<Editora> editoraListAutor = autorRepository.getEditorasByIdAutor(4L);
+        editoraListAutor.forEach(System.out::println);
     }
 
     public static void testeCrudAutor(){

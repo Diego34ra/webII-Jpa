@@ -1,14 +1,15 @@
 package br.edu.ifgoiano.repository;
 
 import br.edu.ifgoiano.model.Autor;
+import br.edu.ifgoiano.model.Editora;
 import br.edu.ifgoiano.model.Livro;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class AutorRepository {
 
@@ -50,12 +51,21 @@ public class AutorRepository {
         }
     }
 
-    public List<Livro> getbyLivrosByIdAutor(Long id){
+    public List<Livro> getLivrosByIdAutor(Long id){
         List<Livro> livros;
         try (Session session = sessionFactory.openSession()) {
             Autor autor = session.get(Autor.class, id);
             livros = autor.getLivros();
         }
         return livros;
+    }
+
+    public List<Editora> getEditorasByIdAutor(Long id){
+        List<Editora> editoraList = new ArrayList<>();
+        List<Livro> livros = getLivrosByIdAutor(id);
+        for(Livro livro : livros){
+            editoraList.add(livro.getEditora());
+        }
+        return editoraList;
     }
 }

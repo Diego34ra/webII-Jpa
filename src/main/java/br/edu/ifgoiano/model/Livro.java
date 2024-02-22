@@ -25,7 +25,7 @@ public class Livro {
 
     private String isbn;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_livro_autor",
             joinColumns = @JoinColumn(name = "livro_id"),
