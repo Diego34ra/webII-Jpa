@@ -24,59 +24,8 @@ public class Main {
 
         testeCrudLivro();
 
-        List<Autor> autorList = new ArrayList<>();
+        testeConsultas();
 
-        Editora editoraLivro = new Editora();
-        editoraLivro.setId(3L);
-        editoraLivro.setNome("Teste Editora Livro");
-
-        editoraRespository.save(editoraLivro);
-
-        Autor autorLivro1 = new Autor();
-        autorLivro1.setId(3L);
-        autorLivro1.setNome("Teste Autor Livro 1");
-
-        autorRepository.save(autorLivro1);
-        autorList.add(autorLivro1);
-
-        Autor autorLivro2 = new Autor();
-        autorLivro2.setId(4L);
-        autorLivro2.setNome("Teste Autor Livro 2");
-
-        autorRepository.save(autorLivro2);
-        autorList.add(autorLivro2);
-
-        Livro livro = new Livro();
-        livro.setNome("Teste Livro");
-        livro.setIsbn("123123123");
-        livro.setAnoPub(2024);
-        livro.setEditora(editoraLivro);
-        livro.setAutores(autorList);
-
-        livroRepository.save(livro);
-        // quais autores por livro
-        List<Autor> autors = livroRepository.getAutorByIdLivro(2L);
-        autors.forEach(System.out::println);
-
-        // quais livros por autor;
-        List<Livro> livros = autorRepository.getLivrosByIdAutor(4L);
-        livros.forEach(System.out::println);
-
-        //quais editoras por livro;
-        Editora editora = livroRepository.getEditoraByIdLivro(2L);
-        System.out.println(editora);
-
-        //quais livros por editora;
-        List<Livro> livroList = editoraRespository.getLivrosByIdEditora(3L);
-        livroList.forEach(System.out::println);
-
-        //quais autores por editora;
-        List<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
-        autorListEditora.forEach(System.out::println);
-
-        //quais editoras por autor;
-        List<Editora> editoraListAutor = autorRepository.getEditorasByIdAutor(4L);
-        editoraListAutor.forEach(System.out::println);
     }
 
     public static void testeCrudAutor(){
@@ -155,5 +104,61 @@ public class Main {
         livroRepository.update(1L,livroGet);
 
         livroRepository.delete(1L);
+    }
+
+    public static void testeConsultas(){
+        List<Autor> autorList = new ArrayList<>();
+
+        Editora editoraLivro = new Editora();
+        editoraLivro.setId(3L);
+        editoraLivro.setNome("Teste Editora Livro");
+
+        editoraRespository.save(editoraLivro);
+
+        Autor autorLivro1 = new Autor();
+        autorLivro1.setId(3L);
+        autorLivro1.setNome("Teste Autor Livro 1");
+
+        autorRepository.save(autorLivro1);
+        autorList.add(autorLivro1);
+
+        Autor autorLivro2 = new Autor();
+        autorLivro2.setId(4L);
+        autorLivro2.setNome("Teste Autor Livro 2");
+
+        autorRepository.save(autorLivro2);
+        autorList.add(autorLivro2);
+
+        Livro livro = new Livro();
+        livro.setNome("Teste Livro");
+        livro.setIsbn("123123123");
+        livro.setAnoPub(2024);
+        livro.setEditora(editoraLivro);
+        livro.setAutores(autorList);
+
+        livroRepository.save(livro);
+        // quais autores por livro
+        List<Autor> autors = livroRepository.getAutorByIdLivro(2L);
+        autors.forEach(System.out::println);
+
+        // quais livros por autor;
+        List<Livro> livros = autorRepository.getLivrosByIdAutor(4L);
+        livros.forEach(System.out::println);
+
+        //quais editoras por livro;
+        Editora editora = livroRepository.getEditoraByIdLivro(2L);
+        System.out.println(editora);
+
+        //quais livros por editora;
+        List<Livro> livroList = editoraRespository.getLivrosByIdEditora(3L);
+        livroList.forEach(System.out::println);
+
+        //quais autores por editora;
+        List<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
+        autorListEditora.forEach(System.out::println);
+
+        //quais editoras por autor;
+        List<Editora> editoraListAutor = autorRepository.getEditorasByIdAutor(4L);
+        editoraListAutor.forEach(System.out::println);
     }
 }
