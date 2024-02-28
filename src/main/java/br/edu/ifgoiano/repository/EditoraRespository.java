@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditoraRespository {
@@ -64,12 +65,10 @@ public class EditoraRespository {
         return livroList;
     }
 
-    public List<Autor> getAutoresByIdEditora(Long id){
-        List<Autor> autorList = new ArrayList<>();
+    public Set<Autor> getAutoresByIdEditora(Long id){
         List<Livro> livroList = getLivrosByIdEditora(id);
-        for(Livro livro : livroList){
-            autorList.addAll(livro.getAutores());
-        }
-        return autorList;
+        return livroList.stream()
+                .flatMap(livro -> livro.getAutores().stream())
+                .collect(Collectors.toSet());
     }
 }

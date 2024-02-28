@@ -10,6 +10,8 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AutorRepository {
 
@@ -60,12 +62,10 @@ public class AutorRepository {
         return livros;
     }
 
-    public List<Editora> getEditorasByIdAutor(Long id){
-        List<Editora> editoraList = new ArrayList<>();
+    public Set<Editora> getEditorasByIdAutor(Long id){
         List<Livro> livros = getLivrosByIdAutor(id);
-        for(Livro livro : livros){
-            editoraList.add(livro.getEditora());
-        }
-        return editoraList;
+        return livros.stream()
+                .map(Livro::getEditora)
+                .collect(Collectors.toSet());
     }
 }

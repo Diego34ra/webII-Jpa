@@ -9,6 +9,7 @@ import br.edu.ifgoiano.repository.LivroRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Main {
 
@@ -154,11 +155,11 @@ public class Main {
         livroList.forEach(System.out::println);
 
         //quais autores por editora;
-        List<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
+        Set<Autor> autorListEditora = editoraRespository.getAutoresByIdEditora(3L);
         autorListEditora.forEach(System.out::println);
 
         //quais editoras por autor;
-        List<Editora> editoraListAutor = autorRepository.getEditorasByIdAutor(4L);
+        Set<Editora> editoraListAutor = autorRepository.getEditorasByIdAutor(4L);
         editoraListAutor.forEach(System.out::println);
     }
 }
